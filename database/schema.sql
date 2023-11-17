@@ -10,7 +10,7 @@ CREATE TABLE "discs" (
   "discId" serial,
   "price" integer not null,
   "name" text not null,
-  "Brand" text not null,
+  "brand" text not null,
   "classification" text not null,
   "plastic" text not null,
   "stability" text not null,

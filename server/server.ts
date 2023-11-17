@@ -7,6 +7,7 @@ import {
   defaultMiddleware,
   errorMiddleware,
 } from './lib/index.js';
+import { nextTick } from 'node:process';
 
 const connectionString =
   process.env.DATABASE_URL ||
@@ -29,8 +30,32 @@ app.use(express.static(reactStaticDir));
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello, World!' });
+type Disc = {
+  discId: number;
+  price: number;
+  name: string;
+  brand: string;
+  classification: string;
+  plastic: string;
+  stability: string;
+  weight: number;
+  speed: number;
+  glide: number;
+  turn: number;
+  fade: number;
+};
+
+app.get('/api/discs', async (req, res, next) => {
+  try {
+    const sql = `
+    select *
+    from "discs"
+    `;
+    const result = await db.query<Disc>(sql);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
 });
 
 /*

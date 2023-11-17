@@ -1,0 +1,14 @@
+.nav-bar-row {
+  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  max-height: 5rem;
+  width: 100%;
+}
+
+.col15 {
+  display: flex;
+  flex-basis: 15%;
+}

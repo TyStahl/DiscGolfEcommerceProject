@@ -33,8 +33,10 @@ CREATE TABLE "userCarts" (
 CREATE TABLE "users" (
   "userId" serial,
   "username" text not null,
-  "createdAt" timestamptz not null,
-  primary key ("userId")
+  "hashedPassword" text not null,
+  "createdAt" timestamptz not null default now(),
+  primary key ("userId"),
+  unique ("username")
 );
 
 CREATE TABLE "userBags" (

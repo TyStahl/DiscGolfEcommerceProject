@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 
 export function SignIn() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -28,25 +29,33 @@ export function SignIn() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <p>Sign In!</p>
-        <div>
+    <>
+      <div>
+        <p>Dont have an account?</p>
+        <button>
+          <Link to="/sign-up">Sign-Up</Link>
+        </button>
+      </div>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <p>Sign In!</p>
           <div>
-            <label>
-              Username:
-              <input required name="username" type="text"></input>
-            </label>
+            <div>
+              <label>
+                Username:
+                <input required name="username" type="text"></input>
+              </label>
+            </div>
+            <div>
+              <label>
+                Password:
+                <input required name="password" type="text"></input>
+              </label>
+            </div>
+            <button>Sign In!</button>
           </div>
-          <div>
-            <label>
-              Password:
-              <input required name="password" type="text"></input>
-            </label>
-          </div>
-          <button>Sign In!</button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import './DiscCatalog.css';
+import { fetchDiscs } from '../lib/fetchDiscs';
+import { Link } from 'react-router-dom';
 
 export type Disc = {
   discId: number;
@@ -18,22 +20,21 @@ export type Disc = {
 export type DiscArray = Disc[];
 
 export function DiscCatalog() {
-  const [discData, setDiscData] = useState<DiscArray>([]);
+  const [discsData, setDiscsData] = useState<DiscArray>([]);
 
   useEffect(() => {
-    async function readServerData() {
+    async function readDiscsData() {
       try {
-        const resp = await fetch('/api/discs');
-        const data: DiscArray = await resp.json();
+        const data: DiscArray = await fetchDiscs();
 
         console.log('Data from server:', data);
 
-        setDiscData(data);
+        setDiscsData(data);
       } catch (error) {
         throw new Error('an error occured loading products');
       }
     }
-    readServerData();
+    readDiscsData();
   }, []);
 
   return (
@@ -47,7 +48,7 @@ export function DiscCatalog() {
       </div>
       <div className="catalogColumn">
         <div className="row">
-          {discData?.map((disc) => (
+          {discsData?.map((disc) => (
             <div key={disc.discId} className="card">
               <DiscCard disc={disc} />
             </div>
@@ -58,12 +59,13 @@ export function DiscCatalog() {
   );
 }
 
-type DiscCardProps = {
+type DiscsCardProps = {
   disc: Disc;
 };
 
-function DiscCard({ disc }: DiscCardProps) {
+function DiscCard({ disc }: DiscsCardProps) {
   const {
+    discId,
     name,
     brand,
     price,
@@ -78,14 +80,18 @@ function DiscCard({ disc }: DiscCardProps) {
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
   return (
-    <>
-      <h5>{name}</h5>
-      <p>{brand}</p>
-      <p>{plastic}</p>
-      <p>{flight}</p>
-      <p>{classification}</p>
-      <p>{stability}</p>
-      <p>{price}</p>
-    </>
+    <Link to={`/disc-details/${discId}`}>
+      <div>
+        <h5>{name}</h5>
+        <p>{brand}</p>
+        <p>{plastic}</p>
+        <p>{flight}</p>
+        <p>{classification}</p>
+        <p>{stability}</p>
+        <p>{price}</p>
+        <button>Bag It!</button>
+        <button>Buy It!</button>
+      </div>
+    </Link>
   );
 }

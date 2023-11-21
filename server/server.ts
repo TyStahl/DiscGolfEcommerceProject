@@ -60,6 +60,28 @@ app.get('/api/discs', async (req, res, next) => {
   }
 });
 
+app.get('/api/discs/:discId', async (req, res, next) => {
+  try {
+    const discId = Number(req.params.discId);
+    if (!discId) {
+      throw new ClientError(400, 'discId must be a positive integer');
+    }
+    const sql = `
+      select *
+        from "discs"
+        where "discId" = $1
+    `;
+    const params = [discId];
+    const result = await db.query<Disc>(sql, params);
+    if (!result.rows[0]) {
+      throw new ClientError(404, `cannot find disc with discId ${discId}`);
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
 type User = {
   userId: number;
   username: string;

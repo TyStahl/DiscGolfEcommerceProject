@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import './DiscCatalog.css';
-import { fetchDiscs } from '../lib/fetchDiscs';
+import {
+  fetchDiscs,
+  fetchToBag,
+  fetchToCart,
+  fetchUsersBag,
+  fetchUsersCart,
+} from '../lib/fetch';
 import { Link } from 'react-router-dom';
+import { CartArray } from './Cart';
 
 export type Disc = {
   discId: number;
@@ -21,14 +28,22 @@ export type DiscArray = Disc[];
 
 export function DiscCatalog() {
   const [discsData, setDiscsData] = useState<DiscArray>([]);
+  const [cartData, setCartData] = useState<CartArray>([]);
+  const [bagData, setBagData] = useState<DiscArray>([]);
+  // const [isInCart, setIsInCart] = useState<boolean>();
+  // const [isBagged, setIsBagged] = useState<boolean>(false);
 
   useEffect(() => {
     async function readDiscsData() {
       try {
         const data: DiscArray = await fetchDiscs();
 
-        console.log('Data from server:', data);
+        const cartData: CartArray = await fetchUsersCart();
+        setCartData(cartData);
+        const bagData: DiscArray = await fetchUsersBag();
+        setBagData(bagData);
 
+        console.log('disc Data from server:', data);
         setDiscsData(data);
       } catch (error) {
         throw new Error('an error occured loading products');
@@ -50,7 +65,7 @@ export function DiscCatalog() {
         <div className="row">
           {discsData?.map((disc) => (
             <div key={disc.discId} className="card">
-              <DiscCard disc={disc} />
+              <DiscCard disc={disc} cartData={cartData} bagData={bagData} />
             </div>
           ))}
         </div>
@@ -61,9 +76,44 @@ export function DiscCatalog() {
 
 type DiscsCardProps = {
   disc: Disc;
+  cartData: CartArray;
+  bagData: DiscArray;
 };
 
-function DiscCard({ disc }: DiscsCardProps) {
+function DiscCard({ disc, cartData, bagData }: DiscsCardProps) {
+  let isInCart = false;
+  for (let i = 0; i < cartData.length; i++) {
+    if (cartData[i].discId === disc.discId) {
+      isInCart = true;
+    }
+  }
+  let isInBag = false;
+  for (let i = 0; i < bagData.length; i++) {
+    if (bagData[i].discId === disc.discId) {
+      isInBag = true;
+    }
+  }
+
+  async function handleAddToCart() {
+    try {
+      const data = await fetchToCart(discId);
+      isInCart = true;
+      console.log('added to cart: ', data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleAddToBag() {
+    try {
+      const data = await fetchToBag(discId);
+      isInBag = true;
+      console.log('added to bag: ', data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   const {
     discId,
     name,
@@ -80,18 +130,22 @@ function DiscCard({ disc }: DiscsCardProps) {
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
   return (
-    <Link to={`/disc-details/${discId}`}>
+    <div>
+      <Link to={`/disc-details/${discId}`}>
+        <div>
+          <h5>{name}</h5>
+          <p>{brand}</p>
+          <p>{plastic}</p>
+          <p>{flight}</p>
+          <p>{classification}</p>
+          <p>{stability}</p>
+          <p>{price}</p>
+        </div>
+      </Link>
       <div>
-        <h5>{name}</h5>
-        <p>{brand}</p>
-        <p>{plastic}</p>
-        <p>{flight}</p>
-        <p>{classification}</p>
-        <p>{stability}</p>
-        <p>{price}</p>
-        <button>Bag It!</button>
-        <button>Buy It!</button>
+        {!isInBag && <button onClick={handleAddToBag}>Bag It!</button>}
+        {!isInCart && <button onClick={handleAddToCart}>Buy It!</button>}
       </div>
-    </Link>
+    </div>
   );
 }

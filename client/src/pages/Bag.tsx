@@ -1,34 +1,34 @@
 import { useEffect, useState } from 'react';
-import { fetchUsersCart } from '../lib/fetch';
-import { Disc } from './DiscCatalog';
+import { fetchUsersBag } from '../lib/fetch';
+import { Disc, DiscArray } from './DiscCatalog';
 
 export type CartArray = (Disc & { quantity: number })[];
 
-export function Cart() {
-  const [cartData, setCartData] = useState<CartArray>();
+export function Bag() {
+  const [bagData, setBagData] = useState<DiscArray>();
 
   useEffect(() => {
-    async function readCartData() {
+    async function readBagData() {
       try {
-        const data: CartArray = await fetchUsersCart();
+        const data: DiscArray = await fetchUsersBag();
 
-        console.log('cart data from server:', data);
+        console.log('bag data from server:', data);
 
-        setCartData(data);
+        setBagData(data);
       } catch (error) {
         throw new Error('an error occured loading products');
       }
     }
-    readCartData();
+    readBagData();
   }, []);
 
   return (
     <div>
-      <p>Cart Page</p>
+      <p>Bag Page</p>
       <div>
-        {cartData?.map((disc) => (
+        {bagData?.map((disc) => (
           <div key={disc.discId} className="card">
-            <CartCard disc={disc} />
+            <BagCard disc={disc} />
           </div>
         ))}
       </div>
@@ -36,14 +36,14 @@ export function Cart() {
   );
 }
 
-type CartCardProps = { disc: Disc & { quantity: number } };
+type CartCardProps = { disc: Disc };
 
-function CartCard({ disc }: CartCardProps) {
+function BagCard({ disc }: CartCardProps) {
   const {
     // discId,
     name,
     brand,
-    price,
+    // price,
     plastic,
     speed,
     glide,
@@ -51,7 +51,6 @@ function CartCard({ disc }: CartCardProps) {
     fade,
     classification,
     stability,
-    quantity,
   } = disc;
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
@@ -64,8 +63,7 @@ function CartCard({ disc }: CartCardProps) {
       <p>{flight}</p>
       <p>{classification}</p>
       <p>{stability}</p>
-      <p>{price}</p>
-      <p>{`Quantity:${quantity}`}</p>
+      {/* <p>{price}</p> */}
       {/* <Link to={'/cart'}>
         <button>Bag It!</button>
         </Link>

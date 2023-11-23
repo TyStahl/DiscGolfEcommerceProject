@@ -5,8 +5,8 @@ import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { DiscDetails } from './pages/DiscDetails';
 import { Route, Routes } from 'react-router-dom';
-import { Collection } from './pages/Collection';
 import { Cart } from './pages/Cart';
+import { Bag } from './pages/Bag';
 
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
         <Route path="sign-up" element={<SignUp />} />
         <Route path="sign-in" element={<SignIn />} />
         <Route path="disc-details/:discId" element={<DiscDetails />} />
-        <Route path="collection" element={<Collection />} />
+        <Route path="bag" element={<Bag />} />
         <Route path="cart" element={<Cart />} />
       </Route>
     </Routes>

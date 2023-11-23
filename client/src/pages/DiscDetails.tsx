@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Disc } from './DiscCatalog';
 import { useEffect, useState } from 'react';
-import { fetchDisc } from '../lib/fetchDiscs';
+import { fetchDisc } from '../lib/fetch';
 
 export function DiscDetails() {
   const { discId } = useParams();
@@ -49,8 +49,8 @@ export function DiscDetails() {
         <p>{classification}</p>
         <p>{stability}</p>
         <p>{price}</p>
-        <button>Bag It!</button>
-        <button>Buy It!</button>
+        {/* <button>Bag It!</button>
+        <button>Buy It!</button> */}
       </div>
     </div>
   );

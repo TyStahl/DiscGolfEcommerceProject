@@ -17,7 +17,7 @@ export function Header() {
         </div>
         <div className="col15">
           <p>
-            <Link to="collection">Bag</Link>
+            <Link to="bag">Bag</Link>
           </p>
         </div>
         <div className="col15">

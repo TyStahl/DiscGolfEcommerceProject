@@ -20,4 +20,9 @@ insert into "discs"
   (19.99, 'sidewinder', 'innova', 'fairway driver', 'champion', 'understable', '174', 9, 5, -3, 1),
   (19.99, 'roc3', 'innova', 'midrange', 'champion', 'overstable', '174', 9, 5, 0, 2),
   (19.99, 'mako3', 'innova', 'midrange', 'star', 'stable', '174', 5, 5, 0, 0),
-  (19.99, 'aviar', 'innova', 'putter', 'champion', 'overstable', '174', 2, 3, 0, 1)
+  (19.99, 'aviar', 'innova', 'putter', 'champion', 'overstable', '174', 2, 3, 0, 1);
+
+insert into "users"
+("username", "hashedPassword")
+values
+('default', '$argon2id$v=19$m=4096,t=3,p=1$41QOWyBIObUzzILOc1fgNQ$Hbeh3KlJ+XNvfvH2h+4QzYHR5L9aUMdkrgFOhdByuQ0');

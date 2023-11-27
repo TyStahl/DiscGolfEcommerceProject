@@ -36,6 +36,7 @@ app.use(express.json());
 type Disc = {
   discId: number;
   price: number;
+  image1Url: string;
   name: string;
   brand: string;
   classification: string;

@@ -13,6 +13,7 @@ import { CartArray } from './Cart';
 export type Disc = {
   discId: number;
   price: number;
+  image1Url: string;
   name: string;
   brand: string;
   classification: string;
@@ -115,6 +116,7 @@ function DiscCard({ disc, cartData, bagData }: DiscsCardProps) {
   }
 
   const {
+    image1Url,
     discId,
     name,
     brand,
@@ -132,6 +134,9 @@ function DiscCard({ disc, cartData, bagData }: DiscsCardProps) {
   return (
     <div>
       <Link to={`/disc-details/${discId}`}>
+        <div className="imageContainer">
+          <img src={image1Url} alt={name}></img>
+        </div>
         <div>
           <h5>{name}</h5>
           <p>{brand}</p>

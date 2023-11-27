@@ -9,6 +9,7 @@ create schema "public";
 CREATE TABLE "discs" (
   "discId" serial primary key,
   "price" integer not null,
+  "image1Url" text not null, --added for image url
   "name" text not null,
   "brand" text not null,
   "classification" text not null,

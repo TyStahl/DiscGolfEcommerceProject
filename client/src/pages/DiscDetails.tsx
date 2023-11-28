@@ -26,6 +26,7 @@ export function DiscDetails() {
   const {
     name,
     brand,
+    image1Url,
     price,
     plastic,
     speed,
@@ -39,16 +40,22 @@ export function DiscDetails() {
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
   return (
-    <div>
-      <p>DISC DETAILS PAGE</p>
-      <div>
-        <h5>{name}</h5>
-        <p>{brand}</p>
-        <p>{plastic}</p>
-        <p>{flight}</p>
-        <p>{classification}</p>
-        <p>{stability}</p>
-        <p>{price}</p>
+    <div className="w-full flex flex-row h-screen flex-wrap md:flex-nowrap">
+      <div className="w-full md:w-1/2">
+        <div className="imageContainer">
+          <img className="w-full" src={image1Url} alt={name}></img>
+        </div>
+      </div>
+      <div className="flex justify-center w-full md:w-1/2">
+        <div className="w-full">
+          <h5>{name}</h5>
+          <p>{brand}</p>
+          <p>{plastic}</p>
+          <p>{flight}</p>
+          <p>{classification}</p>
+          <p>{stability}</p>
+          <p>{price}</p>
+        </div>
         {/* <button>Bag It!</button>
         <button>Buy It!</button> */}
       </div>

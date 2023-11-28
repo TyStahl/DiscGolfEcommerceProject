@@ -1,34 +1,25 @@
 import { Link, Outlet } from 'react-router-dom';
-import './Header.css';
 
 export function Header() {
   return (
     <>
-      <div className="nav-bar-row">
-        <div className="col15">
-          <p>
-            <Link to="disc-catalog">DgExpo</Link>
-          </p>
+      <div className="h-12 bg-red-50 flex flex-row flex-nowrap justify-between align-center w-full">
+        <div>
+          <Link to="disc-catalog">
+            <h1>DgExpo</h1>
+          </Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="disc-catalog">Disc Catalog</Link>
-          </p>
+        <div>
+          <Link to="disc-catalog">Disc Catalog</Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="bag">Bag</Link>
-          </p>
+        <div>
+          <Link to="sign-in">Sign-in/Up</Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="sign-in">Sign-in/Up</Link>
-          </p>
+        <div>
+          <Link to="bag">Bag</Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="cart">Cart</Link>
-          </p>
+        <div>
+          <Link to="cart">cart</Link>
         </div>
       </div>
       <Outlet />

@@ -54,18 +54,22 @@ export function DiscCatalog() {
   }, []);
 
   return (
-    <div className="catalogContainer">
-      <div className="filterColumn">
-        <h5>filter & sort</h5>
-        <p>by brand</p>
-        <p>by stability</p>
-        <p>by flight</p>
-        <p>by type</p>
+    <div className="flex">
+      <div className="max-h-screen mt-8 w-1/5 flex items-start">
+        <div className="w-full">
+          <h5>filter & sort</h5>
+          <p>by brand</p>
+          <p>by stability</p>
+          <p>by flight</p>
+          <p>by type</p>
+        </div>
       </div>
-      <div className="catalogColumn">
-        <div className="row">
+      <div className="w-4/5">
+        <div className="container row">
           {discsData?.map((disc) => (
-            <div key={disc.discId} className="card">
+            <div
+              key={disc.discId}
+              className="shadow-xl border border-red-50 rounded sm:w-full md:w-2/5 lg:w-1/5">
               <DiscCard disc={disc} cartData={cartData} bagData={bagData} />
             </div>
           ))}
@@ -132,10 +136,10 @@ function DiscCard({ disc, cartData, bagData }: DiscsCardProps) {
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
   return (
-    <div>
+    <>
       <Link to={`/disc-details/${discId}`}>
-        <div className="imageContainer">
-          <img src={image1Url} alt={name}></img>
+        <div className="container">
+          <img className="w-full" src={image1Url} alt={name}></img>
         </div>
         <div>
           <h5>{name}</h5>
@@ -148,9 +152,17 @@ function DiscCard({ disc, cartData, bagData }: DiscsCardProps) {
         </div>
       </Link>
       <div>
-        {!isInBag && <button onClick={handleAddToBag}>Bag It!</button>}
-        {!isInCart && <button onClick={handleAddToCart}>Buy It!</button>}
+        {isInBag ? (
+          <button>Bag It!</button>
+        ) : (
+          <button onClick={handleAddToBag}>Bag It!</button>
+        )}
+        {isInCart ? (
+          <button>Buy It!</button>
+        ) : (
+          <button onClick={handleAddToCart}>Buy It!</button>
+        )}
       </div>
-    </div>
+    </>
   );
 }

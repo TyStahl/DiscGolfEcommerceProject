@@ -44,6 +44,7 @@ function CartCard({ disc }: CartCardProps) {
     name,
     brand,
     price,
+    image1Url,
     plastic,
     speed,
     glide,
@@ -57,22 +58,27 @@ function CartCard({ disc }: CartCardProps) {
 
   return (
     // <Link to={`/disc-details/${discId}`}>
-    <div>
-      <h5>{name}</h5>
-      <p>{brand}</p>
-      <p>{plastic}</p>
-      <p>{flight}</p>
-      <p>{classification}</p>
-      <p>{stability}</p>
-      <p>{price}</p>
-      <p>{`Quantity:${quantity}`}</p>
-      {/* <Link to={'/cart'}>
+    <>
+      <div className="w-1/4">
+        <img className="w-full" src={image1Url} alt={name}></img>
+      </div>
+      <div>
+        <h5>{name}</h5>
+        <p>{brand}</p>
+        <p>{plastic}</p>
+        <p>{flight}</p>
+        <p>{classification}</p>
+        <p>{stability}</p>
+        <p>{price}</p>
+        <p>{`Quantity:${quantity}`}</p>
+        {/* <Link to={'/cart'}>
         <button>Bag It!</button>
         </Link>
         <Link to={'/cart'}>
         <button>Buy It!</button>
         </Link> */}
-    </div>
+      </div>
+    </>
     // </Link>
   );
 }

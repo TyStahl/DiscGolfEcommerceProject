@@ -27,20 +27,10 @@ export type DiscArray = Disc[];
 
 export function DiscCatalog() {
   const [discsData, setDiscsData] = useState<DiscArray>([]);
-
-  // const [isInCart, setIsInCart] = useState<boolean>();
-  // const [isBagged, setIsBagged] = useState<boolean>(false);
-
   useEffect(() => {
     async function readDiscsData() {
       try {
         const data: DiscArray = await fetchDiscs();
-
-        // const cartData: CartArray = await fetchUsersCart();
-        // setCartData(cartData);
-        // const bagData: DiscArray = await fetchUsersBag();
-        // setBagData(bagData);
-
         console.log('disc Data from server:', data);
         setDiscsData(data);
       } catch (error) {
@@ -84,19 +74,6 @@ function DiscCard({ disc }: DiscsCardProps) {
   const { bagData, cartData, handleAddToBag, handleAddToCart } =
     useContext(AppContext);
 
-  let isInCart = false;
-  for (let i = 0; i < cartData.length; i++) {
-    if (cartData[i].discId === disc.discId) {
-      isInCart = true;
-    }
-  }
-  let isInBag = false;
-  for (let i = 0; i < bagData.length; i++) {
-    if (bagData[i].discId === disc.discId) {
-      isInBag = true;
-    }
-  }
-
   const {
     image1Url,
     discId,
@@ -111,7 +88,21 @@ function DiscCard({ disc }: DiscsCardProps) {
     classification,
     stability,
   } = disc;
+
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
+
+  let isInCart = false;
+  for (let i = 0; i < cartData.length; i++) {
+    if (cartData[i].discId === disc.discId) {
+      isInCart = true;
+    }
+  }
+  let isInBag = false;
+  for (let i = 0; i < bagData.length; i++) {
+    if (bagData[i].discId === disc.discId) {
+      isInBag = true;
+    }
+  }
 
   return (
     <>
@@ -131,12 +122,12 @@ function DiscCard({ disc }: DiscsCardProps) {
       </Link>
       <div>
         {isInBag ? (
-          <button>Bag It!</button>
+          <button>in bag!</button>
         ) : (
           <button onClick={() => handleAddToBag(discId)}>Bag It!</button>
         )}
         {isInCart ? (
-          <button>Buy It!</button>
+          <button>in cart!</button>
         ) : (
           <button onClick={() => handleAddToCart(discId)}>Buy It!</button>
         )}

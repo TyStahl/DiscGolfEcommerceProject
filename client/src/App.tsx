@@ -76,7 +76,7 @@ export default function App() {
   async function handleAddToBag(discId: number) {
     try {
       const data = await fetchToBag(discId);
-      // isInBag = true;
+      setBagData([...bagData, data]);
       console.log('added to bag: ', data);
     } catch (err) {
       console.error(err);

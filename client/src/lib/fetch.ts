@@ -1,5 +1,5 @@
 import { CartArray } from '../pages/Cart';
-import { Disc, DiscArray } from '../pages/DiscCatalog';
+import { CartDisc, Disc, DiscArray } from '../pages/DiscCatalog';
 
 export async function fetchDisc(discId: number): Promise<Disc> {
   const res = await fetch(`/api/discs/${discId}`);
@@ -16,8 +16,7 @@ export async function fetchDiscs(): Promise<DiscArray> {
 export async function fetchUsersCart(): Promise<CartArray> {
   const req = {
     headers: {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiZGVmYXVsdCIsImlhdCI6MTcwMDY3NDQyMH0.d8gGkQGtTQdQ3vgFpHADT3J7gtyfoIgujTdetfBqi38',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     },
   };
   const res = await fetch(`/api/cart`, req);
@@ -28,8 +27,7 @@ export async function fetchUsersCart(): Promise<CartArray> {
 export async function fetchUsersBag(): Promise<DiscArray> {
   const req = {
     headers: {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiZGVmYXVsdCIsImlhdCI6MTcwMDY3NDQyMH0.d8gGkQGtTQdQ3vgFpHADT3J7gtyfoIgujTdetfBqi38',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     },
   };
   const res = await fetch(`/api/bag`, req);
@@ -37,14 +35,13 @@ export async function fetchUsersBag(): Promise<DiscArray> {
   return await res.json();
 }
 
-export async function fetchToCart(discId: number): Promise<Disc> {
+export async function fetchToCart(discId: number): Promise<CartDisc> {
   const itemToCart = { discId };
   const req = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiZGVmYXVsdCIsImlhdCI6MTcwMDY3NDQyMH0.d8gGkQGtTQdQ3vgFpHADT3J7gtyfoIgujTdetfBqi38',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     },
     body: JSON.stringify(itemToCart),
   };
@@ -59,8 +56,7 @@ export async function fetchToBag(discId: number): Promise<Disc> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiZGVmYXVsdCIsImlhdCI6MTcwMDY3NDQyMH0.d8gGkQGtTQdQ3vgFpHADT3J7gtyfoIgujTdetfBqi38',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     },
     body: JSON.stringify(itemToBag),
   };
@@ -75,3 +71,30 @@ export async function fetchToBag(discId: number): Promise<Disc> {
 //   if (!res.ok) throw new Error(`fetch Error ${res.status}`)
 //   return await res.json();
 // }
+
+export async function fetchSignIn(username: string, password: string) {
+  const req = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  };
+  const res = await fetch('/api/auth/sign-in', req);
+  if (!res.ok) {
+    throw new Error(`fetch Error ${res.status}`);
+  }
+  return await res.json();
+  // sessionStorage.setItem('token', token);
+}
+
+export async function fetchSignUp(username: string, password: string) {
+  const req = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  };
+  const res = await fetch('/api/auth/sign-up', req);
+  if (!res.ok) {
+    throw new Error(`fetch Error ${res.status}`);
+  }
+  return await res.json();
+}

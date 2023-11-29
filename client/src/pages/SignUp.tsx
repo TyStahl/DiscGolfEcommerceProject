@@ -1,29 +1,13 @@
 import { FormEvent } from 'react';
+import { fetchSignUp } from '../lib/fetch';
 
 export function SignUp() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    try {
-      // setIsLoading(true);
-      const formData = new FormData(event.currentTarget);
-      const userData = Object.fromEntries(formData.entries());
-      const req = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      };
-      const res = await fetch('/api/auth/sign-up', req);
-      if (!res.ok) {
-        throw new Error(`fetch Error ${res.status}`);
-      }
-      const user = await res.json();
-      console.log('Registered', user);
-    } catch (err) {
-      alert(`Error registering user: ${err}`);
-    }
-    // finally {
-    //   setIsLoading(false);
-    // }
+    const formData = new FormData(event.currentTarget);
+    const userData = Object.fromEntries(formData.entries());
+    const { username, password } = userData;
+    await fetchSignUp(username as string, password as string);
   }
 
   return (

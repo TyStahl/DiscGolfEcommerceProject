@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './DiscCatalog.css';
-import { fetchDiscs } from '../lib/fetchDiscs';
+import { fetchDiscs } from '../lib/fetch';
 import { Link } from 'react-router-dom';
+// import { CartArray } from './Cart';
+import { AppContext } from '../components/AppContext';
 
 export type Disc = {
   discId: number;
   price: number;
+  image1Url: string;
   name: string;
   brand: string;
   classification: string;
@@ -17,18 +20,18 @@ export type Disc = {
   turn: number;
   fade: number;
 };
+
+export type CartDisc = Disc & { quantity: number };
+
 export type DiscArray = Disc[];
 
 export function DiscCatalog() {
   const [discsData, setDiscsData] = useState<DiscArray>([]);
-
   useEffect(() => {
     async function readDiscsData() {
       try {
         const data: DiscArray = await fetchDiscs();
-
-        console.log('Data from server:', data);
-
+        console.log('disc Data from server:', data);
         setDiscsData(data);
       } catch (error) {
         throw new Error('an error occured loading products');
@@ -38,18 +41,22 @@ export function DiscCatalog() {
   }, []);
 
   return (
-    <div className="catalogContainer">
-      <div className="filterColumn">
-        <h5>filter & sort</h5>
-        <p>by brand</p>
-        <p>by stability</p>
-        <p>by flight</p>
-        <p>by type</p>
+    <div className="flex">
+      <div className="max-h-screen mt-8 w-1/5 flex items-start">
+        <div className="w-full">
+          <h5>filter & sort</h5>
+          <p>by brand</p>
+          <p>by stability</p>
+          <p>by flight</p>
+          <p>by type</p>
+        </div>
       </div>
-      <div className="catalogColumn">
-        <div className="row">
+      <div className="w-full">
+        <div className="container row">
           {discsData?.map((disc) => (
-            <div key={disc.discId} className="card">
+            <div
+              key={disc.discId}
+              className="shadow-xl border border-red-50 rounded sm:w-full md:w-2/5 lg:w-1/5">
               <DiscCard disc={disc} />
             </div>
           ))}
@@ -64,7 +71,11 @@ type DiscsCardProps = {
 };
 
 function DiscCard({ disc }: DiscsCardProps) {
+  const { bagData, cartData, handleAddToBag, handleAddToCart } =
+    useContext(AppContext);
+
   const {
+    image1Url,
     discId,
     name,
     brand,
@@ -77,21 +88,50 @@ function DiscCard({ disc }: DiscsCardProps) {
     classification,
     stability,
   } = disc;
+
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
+  let isInCart = false;
+  for (let i = 0; i < cartData.length; i++) {
+    if (cartData[i].discId === disc.discId) {
+      isInCart = true;
+    }
+  }
+  let isInBag = false;
+  for (let i = 0; i < bagData.length; i++) {
+    if (bagData[i].discId === disc.discId) {
+      isInBag = true;
+    }
+  }
+
   return (
-    <Link to={`/disc-details/${discId}`}>
+    <>
+      <Link to={`/disc-details/${discId}`}>
+        <div className="container">
+          <img className="w-full" src={image1Url} alt={name}></img>
+        </div>
+        <div>
+          <h5>{name}</h5>
+          <p>{brand}</p>
+          <p>{plastic}</p>
+          <p>{flight}</p>
+          <p>{classification}</p>
+          <p>{stability}</p>
+          <p>{price}</p>
+        </div>
+      </Link>
       <div>
-        <h5>{name}</h5>
-        <p>{brand}</p>
-        <p>{plastic}</p>
-        <p>{flight}</p>
-        <p>{classification}</p>
-        <p>{stability}</p>
-        <p>{price}</p>
-        <button>Bag It!</button>
-        <button>Buy It!</button>
+        {isInBag ? (
+          <button>in bag!</button>
+        ) : (
+          <button onClick={() => handleAddToBag(discId)}>Bag It!</button>
+        )}
+        {isInCart ? (
+          <button>in cart!</button>
+        ) : (
+          <button onClick={() => handleAddToCart(discId)}>Buy It!</button>
+        )}
       </div>
-    </Link>
+    </>
   );
 }

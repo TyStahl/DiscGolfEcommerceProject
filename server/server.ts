@@ -6,10 +6,11 @@ import pg from 'pg';
 import jwt from 'jsonwebtoken';
 import {
   ClientError,
+  authMiddleware,
   defaultMiddleware,
   errorMiddleware,
 } from './lib/index.js';
-import { nextTick } from 'node:process';
+// import { nextTick } from 'node:process';
 
 const connectionString =
   process.env.DATABASE_URL ||
@@ -35,6 +36,7 @@ app.use(express.json());
 type Disc = {
   discId: number;
   price: number;
+  image1Url: string;
   name: string;
   brand: string;
   classification: string;
@@ -146,6 +148,102 @@ app.post('/api/auth/sign-in', async (req, res, next) => {
     next(err);
   }
 });
+
+app.get('/api/cart', authMiddleware, async (req, res, next) => {
+  try {
+    const sql = `
+    select *
+    from "userCarts"
+    join "discs" using ("discId")
+    where "userId" = $1
+    `;
+    const params = [req.user?.userId];
+    const result = await db.query<Disc>(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
+type CartItem = {
+  discId: number;
+  quantity: number;
+};
+
+app.post('/api/cart', authMiddleware, async (req, res, next) => {
+  try {
+    const { discId, quantity = 1 } = req.body as Partial<CartItem>;
+    if (!discId || !quantity) {
+      throw new ClientError(401, 'nothing to add');
+    }
+
+    const sql = `
+    insert into "userCarts" ("discId", "quantity", "userId")
+    values ($1, $2, $3)
+    returning *
+    `;
+    const params = [discId, quantity, req.user?.userId];
+    const result = await db.query<CartItem>(sql, params);
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/bag', authMiddleware, async (req, res, next) => {
+  try {
+    const sql = `
+    select *
+    from "userBags"
+    join "discs" using ("discId")
+    where "userId" = $1
+    `;
+    const params = [req.user?.userId];
+    const result = await db.query<Disc>(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/bag', authMiddleware, async (req, res, next) => {
+  try {
+    const { discId } = req.body as Partial<Disc>;
+    if (!discId) {
+      throw new ClientError(401, 'nothing to add');
+    }
+    const sql = `
+    insert into "userBags" ("discId", "userId")
+    values ($1, $2)
+    returning *
+    `;
+    const params = [discId, req.user?.userId];
+    const result = await db.query<Disc>(sql, params);
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// endpoint template for changing quantity of item in cart
+// app.put('/api/cart', authMiddleware, async (req, res, next) => {
+//   try {
+//     const {discId, quantity = 1} = req.body as Partial<CartItem>;
+//      if (!discId || !quantity) {
+//       throw new ClientError(401, 'nothing to add');
+//     }
+//     const sql = `
+//     insert into "userCart" ("discId", "quantity", "userId")
+//     values ($1, $2, $3)
+//     returning *
+//     `
+//     const params = [discId, quantity, req.user?.userId];
+//     const result = await db.query<CartItem>(sql, params)
+//     res.json(result.rows[0])
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
 /*
  * Middleware that handles paths that aren't handled by static middleware

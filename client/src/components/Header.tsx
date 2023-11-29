@@ -1,34 +1,28 @@
 import { Link, Outlet } from 'react-router-dom';
-import './Header.css';
+import { FaCartShopping, FaSuitcase } from 'react-icons/fa6';
 
 export function Header() {
   return (
     <>
-      <div className="nav-bar-row">
-        <div className="col15">
-          <p>
-            <Link to="disc-catalog">DgExpo</Link>
-          </p>
+      <div className="h-12 bg-red-50 flex flex-row flex-nowrap justify-between align-center w-full">
+        <div>
+          <h1>DgExpo</h1>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="disc-catalog">Disc Catalog</Link>
-          </p>
+        <div>
+          <Link to="disc-catalog">Disc Catalog</Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="collection">Bag</Link>
-          </p>
+        <div>
+          <Link to="sign-in">Sign-in/Up</Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="sign-in">Sign-in/Up</Link>
-          </p>
+        <div>
+          <Link to="bag">
+            <FaSuitcase />
+          </Link>
         </div>
-        <div className="col15">
-          <p>
-            <Link to="cart">Cart</Link>
-          </p>
+        <div>
+          <Link to="cart">
+            <FaCartShopping />
+          </Link>
         </div>
       </div>
       <Outlet />

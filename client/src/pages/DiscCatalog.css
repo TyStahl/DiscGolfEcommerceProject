@@ -3,30 +3,22 @@
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 1rem;
-  margin-top: 5rem;
+  margin-top: 1rem;
 }
 
 .card {
   box-shadow: 1px 1px 10px black;
-  min-width: 21%;
-  max-width: 25%;
   border: solid 0.5px black;
   border-radius: 10px;
   background-color: white;
 }
 
-.catalogContainer {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
 .filterColumn {
   width: 20%;
-  background-color: lightgreen;
+  background-color: rgb(204, 204, 204);
 }
 
 .catalogColumn {
   width: 80%;
-  background-color: lightblue;
+  background-color: rgb(228, 243, 248);
 }

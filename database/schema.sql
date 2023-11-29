@@ -7,8 +7,9 @@ drop schema "public" cascade;
 create schema "public";
 
 CREATE TABLE "discs" (
-  "discId" serial,
+  "discId" serial primary key,
   "price" integer not null,
+  "image1Url" text not null, --added for image url
   "name" text not null,
   "brand" text not null,
   "classification" text not null,
@@ -18,8 +19,8 @@ CREATE TABLE "discs" (
   "speed" integer not null,
   "glide" integer not null,
   "turn" integer not null,
-  "fade" integer not null,
-  primary key ("discId")
+  "fade" integer not null
+  -- primary key ("discId")
 );
 
 CREATE TABLE "userCarts" (
@@ -28,6 +29,7 @@ CREATE TABLE "userCarts" (
   "userId" integer not null,
   "quantity" integer not null,
   primary key ("userCartId")
+  -- foreign key ("userId")
 );
 
 CREATE TABLE "users" (
@@ -44,6 +46,7 @@ CREATE TABLE "userBags" (
   "userId" integer not null,
   "discId" integer not null,
   primary key ("userBagId")
+  -- foreign key ("userId")
 );
 
 ALTER TABLE "userCarts" ADD FOREIGN KEY ("discId") REFERENCES "discs" ("discId");

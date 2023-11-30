@@ -8,7 +8,6 @@ export function SignIn() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     try {
-      // setIsLoading(true);
       const formData = new FormData(event.currentTarget);
       const userData = Object.fromEntries(formData.entries());
 
@@ -17,54 +16,51 @@ export function SignIn() {
         userData.password as string
       );
       handleSignIn(user, token);
-      // const req = {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(userData),
-      // };
-      // const res = await fetch('/api/auth/sign-in', req);
-      // if (!res.ok) {
-      //   throw new Error(`fetch Error ${res.status}`);
-      // }
-      // const { user, token } = await res.json();
-      // sessionStorage.setItem('token', token);
-      // console.log('Signed In', user, '; received token:', token);
     } catch (err) {
       alert(`Error signing in: ${err}`);
     }
-    // finally {
-    //   setIsLoading(false);
-    // }
   }
 
   return (
-    <>
-      <div>
-        <p>Dont have an account?</p>
-        <button>
+    <div className="container-none m-12">
+      <div className="flex justify-center flex-wrap">
+        <p className="w-full text-center ">Dont have an account?</p>
+        <button className="border-2 rounded">
           <Link to="/sign-up">Sign-Up</Link>
         </button>
       </div>
-      <div>
+      <div className="flex justify-center">
         <form onSubmit={handleSubmit}>
-          <p>Sign In!</p>
+          <div>Sign In!</div>
           <div>
-            <div>
+            <div className="flex justify-end">
               <label>
                 Username:
-                <input required name="username" type="text"></input>
+                <input
+                  required
+                  className="border-2 rounded"
+                  name="username"
+                  placeholder="username"
+                  type="text"></input>
               </label>
             </div>
-            <div>
+            <div className="flex justify-end">
               <label>
                 Password:
-                <input required name="password" type="text"></input>
+                <input
+                  required
+                  className="border-2 rounded"
+                  placeholder="password"
+                  name="password"
+                  type="text"></input>
               </label>
             </div>
-            <button>Sign In!</button>
+          </div>
+          <div className="flex justify-end">
+            <button className="border-2 rounded">Sign In!</button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

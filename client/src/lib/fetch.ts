@@ -50,6 +50,39 @@ export async function fetchToCart(discId: number): Promise<CartDisc> {
   return await res.json();
 }
 
+export async function fetchUpdateDiscQuantity(
+  discId: number,
+  quantity: number
+): Promise<Disc & { quantity: number }> {
+  const itemToUpdate = { discId, quantity };
+  const req = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(itemToUpdate),
+  };
+  const res = await fetch('/api/cart', req);
+  if (!res.ok) throw new Error(`fetch Error ${res.status}`);
+  return await res.json();
+}
+
+export async function fetchRemoveDiscFromCart(discId: number): Promise<void> {
+  const itemToRemove = { discId };
+  const req = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(itemToRemove),
+  };
+  const res = await fetch('/api/cart', req);
+  if (!res.ok) throw new Error(`fetch Error ${res.status}`);
+  return await res.json();
+}
+
 export async function fetchToBag(discId: number): Promise<Disc> {
   const itemToBag = { discId };
   const req = {

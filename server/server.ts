@@ -190,6 +190,47 @@ app.post('/api/cart', authMiddleware, async (req, res, next) => {
   }
 });
 
+// endpoint for changing quantity of item in cart
+app.put('/api/cart', authMiddleware, async (req, res, next) => {
+  try {
+    const { discId, quantity } = req.body as Partial<CartItem>;
+    console.log(discId);
+    if (!discId || !quantity) {
+      throw new ClientError(400, 'nothing to add');
+    }
+    const sql = `
+    UPDATE "userCarts"
+    SET "quantity" = $1
+    WHERE "discId" = $2 and "userId" = $3
+    returning *
+    `;
+    const params = [quantity, discId, req.user?.userId];
+    const result = await db.query<CartItem>(sql, params);
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.delete('/api/cart', authMiddleware, async (req, res, next) => {
+  try {
+    const { discId } = req.body as Partial<CartItem>;
+    if (!discId) {
+      throw new ClientError(400, 'nothing to add');
+    }
+    const sql = `
+    DELETE from "userCarts"
+    WHERE "discId" = $1 and "userId" = $2
+    returning *
+    `;
+    const params = [discId, req.user?.userId];
+    const result = await db.query<CartItem>(sql, params);
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/api/bag', authMiddleware, async (req, res, next) => {
   try {
     const sql = `
@@ -224,26 +265,6 @@ app.post('/api/bag', authMiddleware, async (req, res, next) => {
     next(err);
   }
 });
-
-// endpoint template for changing quantity of item in cart
-// app.put('/api/cart', authMiddleware, async (req, res, next) => {
-//   try {
-//     const {discId, quantity = 1} = req.body as Partial<CartItem>;
-//      if (!discId || !quantity) {
-//       throw new ClientError(401, 'nothing to add');
-//     }
-//     const sql = `
-//     insert into "userCart" ("discId", "quantity", "userId")
-//     values ($1, $2, $3)
-//     returning *
-//     `
-//     const params = [discId, quantity, req.user?.userId];
-//     const result = await db.query<CartItem>(sql, params)
-//     res.json(result.rows[0])
-//   } catch (err) {
-//     next(err)
-//   }
-// })
 
 /*
  * Middleware that handles paths that aren't handled by static middleware

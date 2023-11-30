@@ -39,7 +39,7 @@ export default function App() {
     token,
     cartData,
     IsLoggedIn,
-    // setCartData,
+    setCartData,
     bagData,
     handleAddToBag,
     handleRemoveFromCart,

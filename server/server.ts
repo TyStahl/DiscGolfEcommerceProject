@@ -231,6 +231,21 @@ app.delete('/api/cart', authMiddleware, async (req, res, next) => {
   }
 });
 
+app.delete('/api/cart/all', authMiddleware, async (req, res, next) => {
+  try {
+    const sql = `
+    DELETE from "userCarts"
+    WHERE "userId" = $1
+    returning *
+    `;
+    const params = [req.user?.userId];
+    const result = await db.query<CartItem>(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/api/bag', authMiddleware, async (req, res, next) => {
   try {
     const sql = `

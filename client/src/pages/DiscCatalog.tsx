@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import './DiscCatalog.css';
-import { fetchDiscs } from '../lib/fetch';
+import { fetchDiscs, toDollars } from '../lib/fetch';
 import { Link } from 'react-router-dom';
 // import { CartArray } from './Cart';
 import { AppContext } from '../components/AppContext';
@@ -43,7 +43,7 @@ export function DiscCatalog() {
 
   return (
     <div className="flex">
-      <div className="max-h-screen mt-8 w-1/5 flex items-start">
+      {/* <div className="max-h-screen mt-8 w-1/5 flex items-start">
         <div className="w-full">
           <h5>filter & sort</h5>
           <p>by brand</p>
@@ -51,9 +51,9 @@ export function DiscCatalog() {
           <p>by flight</p>
           <p>by type</p>
         </div>
-      </div>
+      </div> */}
       <div className="w-full">
-        <div className="container row">
+        <div className="container row flex flex-wrap justify-around gap-4 mt-4 ">
           {discsData?.map((disc) => (
             <div
               key={disc.discId}
@@ -72,9 +72,22 @@ type DiscsCardProps = {
 };
 
 function DiscCard({ disc }: DiscsCardProps) {
-  const { bagData, cartData, handleAddToBag, handleAddToCart } =
+  const { bagData, cartData, handleAddToBag, handleAddToCart, IsLoggedIn } =
     useContext(AppContext);
 
+  function onCartClick(discId: number) {
+    if (!IsLoggedIn) {
+      alert('Log in to add to your cart');
+    }
+    handleAddToCart(discId);
+  }
+
+  function onBagClick(discId: number) {
+    if (!IsLoggedIn) {
+      alert('Log in to add to your cart');
+    }
+    handleAddToBag(discId);
+  }
   const {
     image1Url,
     discId,
@@ -105,6 +118,11 @@ function DiscCard({ disc }: DiscsCardProps) {
     }
   }
 
+  if (!IsLoggedIn) {
+    isInBag = false;
+    isInCart = false;
+  }
+
   return (
     <>
       <Link to={`/disc-details/${discId}`}>
@@ -121,25 +139,37 @@ function DiscCard({ disc }: DiscsCardProps) {
           <p className="text-center">{flight}</p>
           {/* <p>{classification}</p>
           <p>{stability}</p> */}
-          <p className="text-center">{price}</p>
+          <p className="text-center">{toDollars(price)}</p>
         </div>
       </Link>
-      <div className="flex flex-nowrap justify-around">
+      <div className="flex flex-nowrap">
         {isInBag ? (
-          <button disabled className="flex flex-nowrap">
+          <button
+            disabled
+            className="w-1/2 border-2 flex flex-nowrap justify-center">
             <FaCheck />
-            in bag!
+            <p>in bag!</p>
           </button>
         ) : (
-          <button onClick={() => handleAddToBag(discId)}>Bag It!</button>
+          <button
+            className="w-1/2 border-2 flex flex-nowrap justify-center"
+            onClick={() => onBagClick(discId)}>
+            <p>Bag it!</p>
+          </button>
         )}
         {isInCart ? (
-          <button disabled className="flex flex-nowrap">
+          <button
+            disabled
+            className="w-1/2 border-2 flex flex-nowrap justify-center">
             <FaCheck />
-            in cart!
+            <p>in Bag!</p>
           </button>
         ) : (
-          <button onClick={() => handleAddToCart(discId)}>Buy It!</button>
+          <button
+            className="w-1/2 border-2 flex flex-nowrap justify-center"
+            onClick={() => onCartClick(discId)}>
+            <p>Buy It!</p>
+          </button>
         )}
       </div>
     </>

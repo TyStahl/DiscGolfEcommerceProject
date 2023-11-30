@@ -1,9 +1,10 @@
 import { FormEvent, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchSignIn } from '../lib/fetch';
 import { AppContext } from '../components/AppContext';
 
 export function SignIn() {
+  const navigate = useNavigate();
   const { handleSignIn } = useContext(AppContext);
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -16,6 +17,7 @@ export function SignIn() {
         userData.password as string
       );
       handleSignIn(user, token);
+      navigate('/disc-catalog');
     } catch (err) {
       alert(`Error signing in: ${err}`);
     }
@@ -52,7 +54,7 @@ export function SignIn() {
                   className="border-2 rounded"
                   placeholder="password"
                   name="password"
-                  type="text"></input>
+                  type="password"></input>
               </label>
             </div>
           </div>

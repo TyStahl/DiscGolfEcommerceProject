@@ -32,11 +32,13 @@ export default function App() {
   const [token, setToken] = useState<string>();
   const [cartData, setCartData] = useState<CartArray>([]);
   const [bagData, setBagData] = useState<DiscArray>([]);
+  const [IsLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const contextValue = {
     user,
     token,
     cartData,
+    IsLoggedIn,
     // setCartData,
     bagData,
     handleAddToBag,
@@ -54,44 +56,37 @@ export default function App() {
       const bagData: DiscArray = await fetchUsersBag();
       setBagData(bagData);
     }
-    checkCollections();
-  }, []);
+    if (IsLoggedIn) {
+      checkCollections();
+    }
+  }, [IsLoggedIn]);
 
   function handleSignIn(user: User, token: string) {
     sessionStorage.setItem('token', token);
     setUser(user);
     setToken(token);
+    setIsLoggedIn(true);
+    console.log('user is logged in?', IsLoggedIn);
   }
 
   function handleSignOut() {
     sessionStorage.removeItem('token');
     setUser(undefined);
     setToken(undefined);
+    setIsLoggedIn(false);
+    console.log('user is logged in?', IsLoggedIn);
   }
 
   async function handleAddToCart(discId: number) {
+    if (!IsLoggedIn) {
+      return;
+    }
     try {
       const data = await fetchToCart(discId);
       const disc = await fetchUsersCart();
       setCartData(disc);
       console.log('added to cart: ', data);
       console.log(cartData);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  async function handleRemoveFromCart(discId: number) {
-    try {
-      await fetchRemoveDiscFromCart(discId);
-      const updatedCart = cartData.filter((disc) => {
-        if (disc.discId !== discId) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      setCartData(updatedCart);
     } catch (err) {
       console.error(err);
     }
@@ -116,7 +111,26 @@ export default function App() {
     }
   }
 
+  async function handleRemoveFromCart(discId: number) {
+    try {
+      await fetchRemoveDiscFromCart(discId);
+      const updatedCart = cartData.filter((disc) => {
+        if (disc.discId !== discId) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setCartData(updatedCart);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async function handleAddToBag(discId: number) {
+    if (!IsLoggedIn) {
+      return;
+    }
     try {
       const data = await fetchToBag(discId);
       setBagData([...bagData, data]);

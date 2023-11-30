@@ -8,6 +8,7 @@ export type AppContextValues = {
   token: string | undefined;
   cartData: CartArray;
   bagData: DiscArray;
+  IsLoggedIn: boolean | undefined;
   handleUpdateDiscQuantity: (discId: number, quantity: number) => void;
   handleRemoveFromCart: (discId: number) => void;
   // setCartData: (data: CartArray) => void;
@@ -22,6 +23,7 @@ export const AppContext = createContext<AppContextValues>({
   token: undefined,
   cartData: [],
   bagData: [],
+  IsLoggedIn: undefined,
   handleUpdateDiscQuantity: () => undefined,
   handleRemoveFromCart: () => undefined,
   // setCartData: () => undefined,

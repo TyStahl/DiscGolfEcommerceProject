@@ -1,6 +1,10 @@
 import { CartArray } from '../pages/Cart';
 import { CartDisc, Disc, DiscArray } from '../pages/DiscCatalog';
 
+export function toDollars(value: number): string {
+  return '$' + value.toFixed(2);
+}
+
 export async function fetchDisc(discId: number): Promise<Disc> {
   const res = await fetch(`/api/discs/${discId}`);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);

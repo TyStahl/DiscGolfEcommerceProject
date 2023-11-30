@@ -5,20 +5,3 @@
   gap: 1rem;
   margin-top: 1rem;
 }
-
-.card {
-  box-shadow: 1px 1px 10px black;
-  border: solid 0.5px black;
-  border-radius: 10px;
-  background-color: white;
-}
-
-.filterColumn {
-  width: 20%;
-  background-color: rgb(204, 204, 204);
-}
-
-.catalogColumn {
-  width: 80%;
-  background-color: rgb(228, 243, 248);
-}

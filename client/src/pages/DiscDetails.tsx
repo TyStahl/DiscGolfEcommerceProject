@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Disc } from './DiscCatalog';
 import { useEffect, useState } from 'react';
 import { fetchDisc } from '../lib/fetch';
@@ -7,6 +7,11 @@ import { FaArrowLeft } from 'react-icons/fa6';
 export function DiscDetails() {
   const { discId } = useParams();
   const [discData, setDiscData] = useState<Disc>();
+  const navigate = useNavigate();
+
+  function onBackClick() {
+    navigate('/disc-catalog');
+  }
 
   useEffect(() => {
     async function loadDisc(discId: number) {
@@ -43,7 +48,9 @@ export function DiscDetails() {
   return (
     <>
       <div>
-        <button>
+        <button
+          onClick={() => onBackClick()}
+          className="flex flex-nowrap items-center">
           <FaArrowLeft />
           back to catalog
         </button>

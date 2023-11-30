@@ -72,7 +72,9 @@ export async function fetchUpdateDiscQuantity(
   return await res.json();
 }
 
-export async function fetchRemoveDiscFromCart(discId: number): Promise<void> {
+export async function fetchRemoveDiscFromCart(
+  discId: number
+): Promise<DiscArray> {
   const itemToRemove = { discId };
   const req = {
     method: 'DELETE',
@@ -83,6 +85,19 @@ export async function fetchRemoveDiscFromCart(discId: number): Promise<void> {
     body: JSON.stringify(itemToRemove),
   };
   const res = await fetch('/api/cart', req);
+  if (!res.ok) throw new Error(`fetch Error ${res.status}`);
+  return await res.json();
+}
+
+export async function fetchRemoveAllFromCart(): Promise<DiscArray> {
+  const req = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    },
+  };
+  const res = await fetch('/api/cart/all', req);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);
   return await res.json();
 }
@@ -102,13 +117,6 @@ export async function fetchToBag(discId: number): Promise<Disc> {
   return await res.json();
 }
 
-// export async function addToBag() {
-//   const req = {method: 'POST', headers:{Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiZGVmYXVsdCIsImlhdCI6MTcwMDY3NDQyMH0.d8gGkQGtTQdQ3vgFpHADT3J7gtyfoIgujTdetfBqi38'},}
-//   const res = await fetch(`/api/cart`, req);
-//   if (!res.ok) throw new Error(`fetch Error ${res.status}`)
-//   return await res.json();
-// }
-
 export async function fetchSignIn(username: string, password: string) {
   const req = {
     method: 'POST',
@@ -120,7 +128,6 @@ export async function fetchSignIn(username: string, password: string) {
     throw new Error(`fetch Error ${res.status}`);
   }
   return await res.json();
-  // sessionStorage.setItem('token', token);
 }
 
 export async function fetchSignUp(username: string, password: string) {

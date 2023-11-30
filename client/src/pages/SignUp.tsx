@@ -1,13 +1,17 @@
 import { FormEvent } from 'react';
 import { fetchSignUp } from '../lib/fetch';
+import { useNavigate } from 'react-router-dom';
 
 export function SignUp() {
+  const navigate = useNavigate();
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const userData = Object.fromEntries(formData.entries());
     const { username, password } = userData;
     await fetchSignUp(username as string, password as string);
+    navigate('/sign-in');
   }
 
   return (

@@ -35,7 +35,6 @@ export function Bag() {
     </div>
   );
 }
-
 type CartCardProps = { disc: Disc };
 
 function BagCard({ disc }: CartCardProps) {

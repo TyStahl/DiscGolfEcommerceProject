@@ -21,8 +21,8 @@ export function Header() {
   }, [IsLoggedIn]);
 
   return (
-    <>
-      <div className="sticky bg-red-50 flex flex-row flex-nowrap justify-between align-center w-full">
+    <div>
+      <div className="bg-red-50 flex flex-row flex-nowrap justify-between align-center w-full">
         <div className="flex justify-center flex-wrap">
           <GiDiscGolfBasket className="text-8xl" />
           <h1 className="w-full text-center">DG Depot</h1>
@@ -61,7 +61,8 @@ export function Header() {
           </div>
         )}
       </div>
+
       <Outlet />
-    </>
+    </div>
   );
 }

@@ -56,13 +56,13 @@ export function DiscDetails() {
         </div>
         <div className="flex justify-center w-full md:w-1/2">
           <div className="w-full">
-            <h5>{name}</h5>
-            <p>{brand}</p>
-            <p>{plastic}</p>
-            <p>{flight}</p>
-            <p>{classification}</p>
-            <p>{stability}</p>
-            <p>{price}</p>
+            <h5>Mold: {name}</h5>
+            <p>Brand: {brand}</p>
+            <p>Plastic: {plastic}</p>
+            <p>Flight Numbers: {flight}</p>
+            <p>Type: {classification}</p>
+            <p>Stability: {stability}</p>
+            <p>Price: {price}</p>
           </div>
           {/* <button>Bag It!</button>
         <button>Buy It!</button> */}

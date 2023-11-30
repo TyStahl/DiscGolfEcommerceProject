@@ -11,25 +11,39 @@ export function SignUp() {
   }
 
   return (
-    <div>
-      <p>Sign Up!</p>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="container-none m-12">
+      <div className="flex justify-center">
+        <form onSubmit={handleSubmit}>
+          <p className="text-center ">Sign Up!</p>
           <div>
-            <label>
-              Username:
-              <input required name="username" type="text"></input>
-            </label>
+            <div className="flex justify-end">
+              <label>
+                Username:
+                <input
+                  required
+                  className="border-2 rounded"
+                  placeholder="username"
+                  name="username"
+                  type="text"></input>
+              </label>
+            </div>
+            <div className="flex justify-end">
+              <label>
+                Password:
+                <input
+                  required
+                  className="border-2 rounded"
+                  placeholder="username"
+                  name="password"
+                  type="text"></input>
+              </label>
+            </div>
+            <div className="flex justify-end">
+              <button className="border-2 rounded">Sign Up!</button>
+            </div>
           </div>
-          <div>
-            <label>
-              Password:
-              <input required name="password" type="text"></input>
-            </label>
-          </div>
-          <button>Sign Up!</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

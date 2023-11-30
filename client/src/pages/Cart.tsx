@@ -1,33 +1,19 @@
-import { useEffect, useState } from 'react';
-import { fetchUsersCart } from '../lib/fetch';
+import { useContext } from 'react';
+// import { fetchUsersCart } from '../lib/fetch';
 import { Disc } from './DiscCatalog';
+import { FaAngleDown, FaAngleUp, FaRegTrashCan } from 'react-icons/fa6';
+import { AppContext } from '../components/AppContext';
 
 export type CartArray = (Disc & { quantity: number })[];
 
 export function Cart() {
-  const [cartData, setCartData] = useState<CartArray>();
-
-  useEffect(() => {
-    async function readCartData() {
-      try {
-        const data: CartArray = await fetchUsersCart();
-
-        console.log('cart data from server:', data);
-
-        setCartData(data);
-      } catch (error) {
-        throw new Error('an error occured loading products');
-      }
-    }
-    readCartData();
-  }, []);
+  const { cartData } = useContext(AppContext);
 
   return (
     <div>
-      <p>Cart Page</p>
       <div>
         {cartData?.map((disc) => (
-          <div key={disc.discId} className="card">
+          <div key={disc.discId}>
             <CartCard disc={disc} />
           </div>
         ))}
@@ -39,8 +25,10 @@ export function Cart() {
 type CartCardProps = { disc: Disc & { quantity: number } };
 
 function CartCard({ disc }: CartCardProps) {
+  const { handleUpdateDiscQuantity, handleRemoveFromCart } =
+    useContext(AppContext);
   const {
-    // discId,
+    discId,
     name,
     brand,
     price,
@@ -58,27 +46,41 @@ function CartCard({ disc }: CartCardProps) {
 
   return (
     // <Link to={`/disc-details/${discId}`}>
-    <>
-      <div className="w-1/4">
+    <div className="border-2 rounded flex flex-wrap">
+      <div className="w-1/6">
         <img className="w-full" src={image1Url} alt={name}></img>
       </div>
-      <div>
-        <h5>{name}</h5>
-        <p>{brand}</p>
-        <p>{plastic}</p>
-        <p>{flight}</p>
-        <p>{classification}</p>
-        <p>{stability}</p>
-        <p>{price}</p>
-        <p>{`Quantity:${quantity}`}</p>
-        {/* <Link to={'/cart'}>
-        <button>Bag It!</button>
-        </Link>
-        <Link to={'/cart'}>
-        <button>Buy It!</button>
-        </Link> */}
+      <div className="mx-10">
+        <h5>Mold: {name}</h5>
+        <p>Brand: {brand}</p>
+        <p>Plastic: {plastic}</p>
+        <p>Flight Numbers: {flight}</p>
+        <p>Type: {classification}</p>
+        <p>Stability: {stability}</p>
+        <p>Price: {price}</p>
+        <div className="flex justify-end flex-wrap">
+          <FaAngleUp
+            onClick={() => handleUpdateDiscQuantity(discId, quantity + 1)}
+            className="border rounded"
+          />
+          <div className="w-full flex justify-between">
+            <p>Quantity: </p>
+            <span className="text-center">{quantity}</span>
+          </div>
+          <FaAngleDown
+            onClick={() => handleUpdateDiscQuantity(discId, quantity - 1)}
+            className="border rounded"
+          />
+        </div>
       </div>
-    </>
+      <div className="flex items-center">
+        <FaRegTrashCan
+          onClick={() => handleRemoveFromCart(discId)}
+          className="text-4xl"
+        />{' '}
+        remove
+      </div>
+    </div>
     // </Link>
   );
 }

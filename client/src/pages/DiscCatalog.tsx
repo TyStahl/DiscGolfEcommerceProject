@@ -4,6 +4,7 @@ import { fetchDiscs } from '../lib/fetch';
 import { Link } from 'react-router-dom';
 // import { CartArray } from './Cart';
 import { AppContext } from '../components/AppContext';
+import { FaCheck } from 'react-icons/fa6';
 
 export type Disc = {
   discId: number;
@@ -85,8 +86,8 @@ function DiscCard({ disc }: DiscsCardProps) {
     glide,
     turn,
     fade,
-    classification,
-    stability,
+    // classification,
+    // stability,
   } = disc;
 
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
@@ -111,23 +112,32 @@ function DiscCard({ disc }: DiscsCardProps) {
           <img className="w-full" src={image1Url} alt={name}></img>
         </div>
         <div>
-          <h5>{name}</h5>
-          <p>{brand}</p>
-          <p>{plastic}</p>
-          <p>{flight}</p>
-          <p>{classification}</p>
-          <p>{stability}</p>
-          <p>{price}</p>
+          <h5 className="text-center">
+            {brand} | {plastic}
+          </h5>
+          <h5 className="text-center">{name}</h5>
+          {/* <p>{brand}</p> */}
+          {/* <p>{plastic}</p> */}
+          <p className="text-center">{flight}</p>
+          {/* <p>{classification}</p>
+          <p>{stability}</p> */}
+          <p className="text-center">{price}</p>
         </div>
       </Link>
-      <div>
+      <div className="flex flex-nowrap justify-around">
         {isInBag ? (
-          <button>in bag!</button>
+          <button disabled className="flex flex-nowrap">
+            <FaCheck />
+            in bag!
+          </button>
         ) : (
           <button onClick={() => handleAddToBag(discId)}>Bag It!</button>
         )}
         {isInCart ? (
-          <button>in cart!</button>
+          <button disabled className="flex flex-nowrap">
+            <FaCheck />
+            in cart!
+          </button>
         ) : (
           <button onClick={() => handleAddToCart(discId)}>Buy It!</button>
         )}

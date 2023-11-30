@@ -8,6 +8,9 @@ export type AppContextValues = {
   token: string | undefined;
   cartData: CartArray;
   bagData: DiscArray;
+  handleUpdateDiscQuantity: (discId: number, quantity: number) => void;
+  handleRemoveFromCart: (discId: number) => void;
+  // setCartData: (data: CartArray) => void;
   handleAddToBag: (discId: number) => void;
   handleAddToCart: (discId: number) => void;
   handleSignIn: (user: User, token: string) => void;
@@ -19,6 +22,9 @@ export const AppContext = createContext<AppContextValues>({
   token: undefined,
   cartData: [],
   bagData: [],
+  handleUpdateDiscQuantity: () => undefined,
+  handleRemoveFromCart: () => undefined,
+  // setCartData: () => undefined,
   handleAddToBag: () => undefined,
   handleAddToCart: () => undefined,
   handleSignIn: () => undefined,

@@ -9,12 +9,13 @@ import { Bag } from './pages/Bag';
 import { AppContext } from './components/AppContext';
 import { useEffect, useState } from 'react';
 import {
+  fetchRemoveDiscFromCart,
   fetchToBag,
   fetchToCart,
+  fetchUpdateDiscQuantity,
   fetchUsersBag,
   fetchUsersCart,
 } from './lib/fetch';
-// import { AppContext } from './components/AppContext';
 
 export type User = {
   userId: number;
@@ -32,16 +33,21 @@ export default function App() {
   const [cartData, setCartData] = useState<CartArray>([]);
   const [bagData, setBagData] = useState<DiscArray>([]);
 
-  //setter functions - user login/signin set user/ set token/ add to sessionstorage
-  //move add to a cart add to bag functions here and remove from cart/bag functions
-  //useEffect, read cartData, bagData
+  const contextValue = {
+    user,
+    token,
+    cartData,
+    // setCartData,
+    bagData,
+    handleAddToBag,
+    handleRemoveFromCart,
+    handleAddToCart,
+    handleSignIn,
+    handleSignOut,
+    handleUpdateDiscQuantity,
+  };
 
   useEffect(() => {
-    // const auth = sessionStorage.getItem('token');
-    // if (auth) {
-    //   const current = JSON.parse(auth);
-    //   setUser(current.user);
-    //   setToken(current.token);
     async function checkCollections() {
       const cartData: CartArray = await fetchUsersCart();
       setCartData(cartData);
@@ -66,8 +72,45 @@ export default function App() {
   async function handleAddToCart(discId: number) {
     try {
       const data = await fetchToCart(discId);
-      setCartData([...cartData, data]);
+      const disc = await fetchUsersCart();
+      setCartData(disc);
       console.log('added to cart: ', data);
+      console.log(cartData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleRemoveFromCart(discId: number) {
+    try {
+      await fetchRemoveDiscFromCart(discId);
+      const updatedCart = cartData.filter((disc) => {
+        if (disc.discId !== discId) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setCartData(updatedCart);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleUpdateDiscQuantity(discId: number, quantity: number) {
+    if (quantity <= 0) {
+      return;
+    }
+    try {
+      const data = await fetchUpdateDiscQuantity(discId, quantity);
+      const updatedCart = cartData.map((disc) => {
+        if (disc.discId === data.discId) {
+          return { ...disc, ...data };
+        } else {
+          return disc;
+        }
+      });
+      setCartData(updatedCart);
     } catch (err) {
       console.error(err);
     }
@@ -82,17 +125,6 @@ export default function App() {
       console.error(err);
     }
   }
-
-  const contextValue = {
-    user,
-    token,
-    cartData,
-    bagData,
-    handleAddToBag,
-    handleAddToCart,
-    handleSignIn,
-    handleSignOut,
-  };
 
   return (
     <AppContext.Provider value={contextValue}>

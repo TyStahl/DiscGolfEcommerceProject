@@ -37,7 +37,7 @@ export function SignUp() {
                 <input
                   required
                   className="border-2 rounded"
-                  placeholder="username"
+                  placeholder="password"
                   name="password"
                   type="text"></input>
               </label>

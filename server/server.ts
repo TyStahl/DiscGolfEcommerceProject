@@ -281,6 +281,25 @@ app.post('/api/bag', authMiddleware, async (req, res, next) => {
   }
 });
 
+app.delete('/api/bag', authMiddleware, async (req, res, next) => {
+  try {
+    const { discId } = req.body as Partial<Disc>;
+    if (!discId) {
+      throw new ClientError(400, 'nothing to add');
+    }
+    const sql = `
+    DELETE from "userBags"
+    WHERE "discId" = $1 and "userId" = $2
+    returning *
+    `;
+    const params = [discId, req.user?.userId];
+    const result = await db.query<Disc>(sql, params);
+    res.json(result.rows[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
 /*
  * Middleware that handles paths that aren't handled by static middleware
  * or API route handlers.

@@ -9,6 +9,7 @@ import { Bag } from './pages/Bag';
 import { AppContext } from './components/AppContext';
 import { useEffect, useState } from 'react';
 import {
+  fetchRemoveDiscFromBag,
   fetchRemoveDiscFromCart,
   fetchToBag,
   fetchToCart,
@@ -42,6 +43,7 @@ export default function App() {
     setCartData,
     bagData,
     handleAddToBag,
+    handleRemoveFromBag,
     handleRemoveFromCart,
     handleAddToCart,
     handleSignIn,
@@ -122,6 +124,22 @@ export default function App() {
         }
       });
       setCartData(updatedCart);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleRemoveFromBag(discId: number) {
+    try {
+      await fetchRemoveDiscFromBag(discId);
+      const updatedBag = bagData.filter((disc) => {
+        if (disc.discId !== discId) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setBagData(updatedBag);
     } catch (err) {
       console.error(err);
     }

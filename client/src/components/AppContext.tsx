@@ -11,6 +11,8 @@ export type AppContextValues = {
   IsLoggedIn: boolean | undefined;
   handleUpdateDiscQuantity: (discId: number, quantity: number) => void;
   handleRemoveFromCart: (discId: number) => void;
+
+  handleRemoveFromBag: (discId: number) => void;
   setCartData: (data: CartArray) => void;
   handleAddToBag: (discId: number) => void;
   handleAddToCart: (discId: number) => void;
@@ -24,6 +26,7 @@ export const AppContext = createContext<AppContextValues>({
   cartData: [],
   bagData: [],
   IsLoggedIn: undefined,
+  handleRemoveFromBag: () => undefined,
   handleUpdateDiscQuantity: () => undefined,
   handleRemoveFromCart: () => undefined,
   setCartData: () => undefined,

@@ -117,6 +117,21 @@ export async function fetchToBag(discId: number): Promise<Disc> {
   return await res.json();
 }
 
+export async function fetchRemoveDiscFromBag(discId: number): Promise<Disc> {
+  const itemToRemove = { discId };
+  const req = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(itemToRemove),
+  };
+  const res = await fetch('/api/bag', req);
+  if (!res.ok) throw new Error(`fetch Error ${res.status}`);
+  return await res.json();
+}
+
 export async function fetchSignIn(username: string, password: string) {
   const req = {
     method: 'POST',

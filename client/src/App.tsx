@@ -42,6 +42,7 @@ export default function App() {
     IsLoggedIn,
     setCartData,
     bagData,
+    setBagData,
     handleAddToBag,
     handleRemoveFromBag,
     handleRemoveFromCart,
@@ -150,9 +151,11 @@ export default function App() {
       return;
     }
     try {
-      const data = await fetchToBag(discId);
-      setBagData([...bagData, data]);
-      console.log('added to bag: ', data);
+      await fetchToBag(discId);
+      const discs = await fetchUsersBag();
+      setBagData(discs);
+      // setBagData([...bagData, data]);
+      console.log('added to bag: ', discs);
     } catch (err) {
       console.error(err);
     }

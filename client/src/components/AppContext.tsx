@@ -25,7 +25,6 @@ export const AppContext = createContext<AppContextValues>({
   token: undefined,
   cartData: [],
   bagData: [],
-
   IsLoggedIn: undefined,
   handleRemoveFromBag: () => undefined,
   handleUpdateDiscQuantity: () => undefined,

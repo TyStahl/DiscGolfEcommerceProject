@@ -1,28 +1,28 @@
-import { useContext, useEffect } from 'react';
-import { fetchUsersBag } from '../lib/fetch';
-import { Disc, DiscArray } from './DiscCatalog';
+import { useContext } from 'react';
+// import { fetchUsersBag } from '../lib/fetch';
+import { Disc } from './DiscCatalog';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { AppContext } from '../components/AppContext';
 
 export type CartArray = (Disc & { quantity: number })[];
 
 export function Bag() {
-  const { bagData, setBagData } = useContext(AppContext);
+  const { bagData } = useContext(AppContext);
 
-  useEffect(() => {
-    async function readBagData() {
-      try {
-        const data: DiscArray = await fetchUsersBag();
+  // useEffect(() => {
+  //   async function readBagData() {
+  //     try {
+  //       const data: DiscArray = await fetchUsersBag();
 
-        console.log('bag data from server:', data);
+  //       console.log('bag data from server:', data);
 
-        setBagData(data);
-      } catch (error) {
-        throw new Error('an error occured loading products');
-      }
-    }
-    readBagData();
-  }, [setBagData]);
+  //       setBagData(data);
+  //     } catch (error) {
+  //       throw new Error('an error occured loading products');
+  //     }
+  //   }
+  //   readBagData();
+  // }, [setBagData]);
 
   return (
     <div>

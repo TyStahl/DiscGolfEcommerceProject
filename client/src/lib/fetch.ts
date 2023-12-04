@@ -117,9 +117,7 @@ export async function fetchToBag(discId: number): Promise<Disc> {
   return await res.json();
 }
 
-export async function fetchRemoveDiscFromBag(
-  discId: number
-): Promise<DiscArray> {
+export async function fetchRemoveDiscFromBag(discId: number): Promise<Disc> {
   const itemToRemove = { discId };
   const req = {
     method: 'DELETE',

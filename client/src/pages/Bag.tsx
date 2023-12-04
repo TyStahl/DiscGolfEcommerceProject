@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { fetchUsersBag } from '../lib/fetch';
 import { Disc, DiscArray } from './DiscCatalog';
 import { FaRegTrashCan } from 'react-icons/fa6';
@@ -7,7 +7,7 @@ import { AppContext } from '../components/AppContext';
 export type CartArray = (Disc & { quantity: number })[];
 
 export function Bag() {
-  const [bagData, setBagData] = useState<DiscArray>();
+  const { bagData, setBagData } = useContext(AppContext);
 
   useEffect(() => {
     async function readBagData() {
@@ -22,7 +22,7 @@ export function Bag() {
       }
     }
     readBagData();
-  }, []);
+  }, [setBagData]);
 
   return (
     <div>

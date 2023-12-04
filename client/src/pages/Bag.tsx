@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { Disc } from './DiscCatalog';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { AppContext } from '../components/AppContext';
+import { ScatterChart } from '../components/ScatterChart';
 
 export type CartArray = (Disc & { quantity: number })[];
 
@@ -27,6 +28,9 @@ export function Bag() {
   return (
     <div>
       <p>Bag Page</p>
+      <div className="w-1/2">
+        <ScatterChart />
+      </div>
       <div>
         {bagData?.map((disc) => (
           <div key={disc.discId} className="card">
@@ -45,16 +49,16 @@ function BagCard({ disc }: CartCardProps) {
   const {
     discId,
     name,
-    brand,
+    // brand,
     // price,
     image1Url,
-    plastic,
+    // plastic,
     speed,
     glide,
     turn,
     fade,
-    classification,
-    stability,
+    // classification,
+    // stability,
   } = disc;
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
@@ -66,11 +70,11 @@ function BagCard({ disc }: CartCardProps) {
       </div>
       <div>
         <h5>{name}</h5>
-        <p>{brand}</p>
-        <p>{plastic}</p>
+        {/* <p>{brand}</p> */}
+        {/* <p>{plastic}</p> */}
         <p>{flight}</p>
-        <p>{classification}</p>
-        <p>{stability}</p>
+        {/* <p>{classification}</p> */}
+        {/* <p>{stability}</p> */}
         {/* <p>{price}</p> */}
         {/* <Link to={'/cart'}>
         <button>Bag It!</button>
@@ -80,11 +84,7 @@ function BagCard({ disc }: CartCardProps) {
         </Link> */}
       </div>
       <div className="flex items-center">
-        <FaRegTrashCan
-          onClick={() => handleRemoveFromBag(discId)}
-          className="text-4xl"
-        />{' '}
-        remove
+        <FaRegTrashCan onClick={() => handleRemoveFromBag(discId)} /> remove
       </div>
     </>
     // </Link>

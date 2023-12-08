@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-// import { fetchUsersCart } from '../lib/fetch';
 import { Disc } from './DiscCatalog';
 import { FaAngleDown, FaAngleUp, FaRegTrashCan } from 'react-icons/fa6';
 import { AppContext } from '../components/AppContext';

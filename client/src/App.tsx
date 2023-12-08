@@ -86,11 +86,9 @@ export default function App() {
       return;
     }
     try {
-      const data = await fetchToCart(discId);
+      await fetchToCart(discId);
       const disc = await fetchUsersCart();
       setCartData(disc);
-      console.log('added to cart: ', data);
-      console.log(cartData);
     } catch (err) {
       console.error(err);
     }
@@ -155,8 +153,6 @@ export default function App() {
       await fetchToBag(discId);
       const discs = await fetchUsersBag();
       setBagData(discs);
-      // setBagData([...bagData, data]);
-      console.log('added to bag: ', discs);
     } catch (err) {
       console.error(err);
     }

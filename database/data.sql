@@ -18,7 +18,7 @@ values
   (20.00, '/images/thunderbird-champion-blue.webp', 'thunderbird', 'innova', 'fairway driver', 'champion', 'overstable', '174', 9, 5, 0, 2),
   (20.00, '/images/firebird-champion-yellow.webp', 'firebird', 'innova', 'fairway driver', 'champion', 'very overstable', '174', 9, 3, 0, 4),
   (20.00, '/images/sidewinder-champion-yellow.webp', 'sidewinder', 'innova', 'fairway driver', 'champion', 'understable', '174', 9, 5, -3, 1),
-  (20.00, '/images/roc3-champion-green.webp', 'roc3', 'innova', 'midrange', 'champion', 'overstable', '174', 9, 5, 0, 2),
+  (20.00, '/images/roc3-champion-green.webp', 'roc3', 'innova', 'midrange', 'champion', 'overstable', '174', 5, 5, 0, 2),
   (20.00, '/images/mako3-star-orange.webp', 'mako3', 'innova', 'midrange', 'star', 'stable', '174', 5, 5, 0, 0),
   (20.00, '/images/aviar-star-red.jpg', 'aviar', 'innova', 'putter', 'star', 'overstable', '174', 2, 3, 0, 1),
   (20.00, '/images/leopard3-halo-orange.jpg' ,'leopard3', 'innova', 'fairway driver', 'halo', 'understable', '174', 7, 5, -2, 1),
@@ -38,4 +38,5 @@ values
 insert into "users"
 ("username", "hashedPassword")
 values
-('default', '$argon2id$v=19$m=4096,t=3,p=1$41QOWyBIObUzzILOc1fgNQ$Hbeh3KlJ+XNvfvH2h+4QzYHR5L9aUMdkrgFOhdByuQ0');
+('default', '$argon2id$v=19$m=4096,t=3,p=1$41QOWyBIObUzzILOc1fgNQ$Hbeh3KlJ+XNvfvH2h+4QzYHR5L9aUMdkrgFOhdByuQ0'),
+('guest', '$argon2id$v=19$m=4096,t=3,p=1$K9zDrGHL/rFzrPsaThCCUw$DD32dK+MVEeXaKlp9RFz4rdHjKNGFXuNlLqNqk8eCz0');

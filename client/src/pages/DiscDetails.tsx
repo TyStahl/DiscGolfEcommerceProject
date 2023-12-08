@@ -71,8 +71,6 @@ export function DiscDetails() {
             <p>Stability: {stability}</p>
             <p>Price: {price}</p>
           </div>
-          {/* <button>Bag It!</button>
-        <button>Buy It!</button> */}
         </div>
       </div>
     </>

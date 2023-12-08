@@ -43,8 +43,11 @@ function BagCard({ disc }: CartCardProps) {
           <p>{flight}</p>
         </div>
       </div>
-      <div className="flex items-center justify-end">
-        <FaRegTrashCan onClick={() => handleRemoveFromBag(discId)} /> remove
+      <div
+        onClick={() => handleRemoveFromBag(discId)}
+        className="flex items-center justify-end">
+        <FaRegTrashCan />
+        remove
       </div>
     </>
   );

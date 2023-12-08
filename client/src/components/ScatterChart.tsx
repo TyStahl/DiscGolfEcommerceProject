@@ -13,10 +13,7 @@ import { AppContext } from './AppContext';
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 const options = {
-  aspectRatio: 2 / 3,
-  // layout: {
-  //   autoPadding: false,
-  // },
+  aspectRatio: 3 / 2,
   scales: {
     y: {
       beginAtZero: true,
@@ -44,14 +41,14 @@ export function ScatterChart() {
     labels: bagData.map((disc) => disc.name),
     datasets: [
       {
-        label: 'Discs',
+        label: 'Your Disc Data',
         data: bagData.map((disc) => ({
           x: disc.fade + disc.turn,
           y: disc.speed,
-          Tooltip: disc.name,
+          tooltip: disc.name,
         })),
         radius: 10,
-        backgroundColor: 'red',
+        backgroundColor: ['black', 'grey'],
       },
     ],
   };

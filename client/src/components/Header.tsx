@@ -3,10 +3,11 @@ import { FaCartShopping } from 'react-icons/fa6';
 import { GiDiscGolfBasket, GiBackpack } from 'react-icons/gi';
 import { AppContext } from './AppContext';
 import { useContext, useEffect } from 'react';
+import { fetchSignIn } from '../lib/fetch';
 
 export function Header() {
   const navigate = useNavigate();
-  const { IsLoggedIn, handleSignOut } = useContext(AppContext);
+  const { IsLoggedIn, handleSignOut, handleSignIn } = useContext(AppContext);
 
   function onSignOut() {
     handleSignOut();
@@ -19,6 +20,17 @@ export function Header() {
     }
     checkForUser();
   }, [IsLoggedIn]);
+
+  async function guestSignIn() {
+    try {
+      const { user, token } = await fetchSignIn('guest', 'guest');
+      handleSignIn(user, token);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      navigate('/disc-catalog');
+    }
+  }
 
   return (
     <div>
@@ -37,8 +49,13 @@ export function Header() {
           </Link>
         </div>
         {!IsLoggedIn && (
-          <div className="flex items-center">
-            <Link to="sign-in">Sign-In</Link>
+          <div>
+            <div className="flex items-center justify-center">
+              <Link to="sign-in">Sign-In</Link>
+            </div>
+            <div className="flex items-center">
+              <button onClick={() => guestSignIn()}>Guest Sign-In</button>
+            </div>
           </div>
         )}
         {IsLoggedIn && (

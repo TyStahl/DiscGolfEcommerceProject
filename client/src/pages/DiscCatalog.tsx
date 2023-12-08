@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import './DiscCatalog.css';
 import { fetchDiscs, toDollars } from '../lib/fetch';
 import { Link } from 'react-router-dom';
-// import { CartArray } from './Cart';
 import { AppContext } from '../components/AppContext';
 import { FaCheck } from 'react-icons/fa6';
 
@@ -43,16 +42,7 @@ export function DiscCatalog() {
 
   return (
     <div className="flex">
-      {/* <div className="max-h-screen mt-8 w-1/5 flex items-start">
-        <div className="w-full">
-          <h5>filter & sort</h5>
-          <p>by brand</p>
-          <p>by stability</p>
-          <p>by flight</p>
-          <p>by type</p>
-        </div>
-      </div> */}
-      <div className="w-full">
+      <div className="w-full flex justify-center">
         <div className="container row flex flex-wrap justify-around gap-4 mt-4 ">
           {discsData?.map((disc) => (
             <div
@@ -99,8 +89,6 @@ function DiscCard({ disc }: DiscsCardProps) {
     glide,
     turn,
     fade,
-    // classification,
-    // stability,
   } = disc;
 
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
@@ -134,11 +122,7 @@ function DiscCard({ disc }: DiscsCardProps) {
             {brand} | {plastic}
           </h5>
           <h5 className="text-center">{name}</h5>
-          {/* <p>{brand}</p> */}
-          {/* <p>{plastic}</p> */}
           <p className="text-center">{flight}</p>
-          {/* <p>{classification}</p>
-          <p>{stability}</p> */}
           <p className="text-center">{toDollars(price)}</p>
         </div>
       </Link>

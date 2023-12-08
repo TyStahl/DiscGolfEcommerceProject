@@ -137,7 +137,7 @@ function DiscCard({ disc }: DiscsCardProps) {
           <button
             className="w-1/2 border-2 flex flex-nowrap justify-center"
             onClick={() => onBagClick(discId)}>
-            <p>Bag it!</p>
+            <p>Bag It!</p>
           </button>
         )}
         {isInCart ? (

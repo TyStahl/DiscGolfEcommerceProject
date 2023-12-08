@@ -24,8 +24,10 @@ export function Header() {
     <div>
       <div className="bg-red-50 flex flex-row flex-nowrap justify-between align-center w-full">
         <div className="flex justify-center flex-wrap">
-          <GiDiscGolfBasket className="text-8xl" />
-          <h1 className="w-full text-center">DG Depot</h1>
+          <Link to="home">
+            <GiDiscGolfBasket className="text-8xl" />
+            <h1 className="w-full text-center">DG Depot</h1>
+          </Link>
         </div>
         <div className="flex items-center">
           <Link to="disc-catalog">

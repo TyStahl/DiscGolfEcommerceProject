@@ -17,6 +17,7 @@ import {
   fetchUsersBag,
   fetchUsersCart,
 } from './lib/fetch';
+import { Home } from './pages/Home';
 
 export type User = {
   userId: number;
@@ -165,6 +166,7 @@ export default function App() {
     <AppContext.Provider value={contextValue}>
       <Routes>
         <Route path="/" element={<Header />}>
+          <Route path="home" element={<Home />} />
           <Route path="disc-catalog" element={<DiscCatalog />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />

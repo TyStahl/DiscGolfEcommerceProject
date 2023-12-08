@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-// import { fetchUsersBag } from '../lib/fetch';
 import { Disc } from './DiscCatalog';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { AppContext } from '../components/AppContext';
@@ -10,33 +9,17 @@ export type CartArray = (Disc & { quantity: number })[];
 export function Bag() {
   const { bagData } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   async function readBagData() {
-  //     try {
-  //       const data: DiscArray = await fetchUsersBag();
-
-  //       console.log('bag data from server:', data);
-
-  //       setBagData(data);
-  //     } catch (error) {
-  //       throw new Error('an error occured loading products');
-  //     }
-  //   }
-  //   readBagData();
-  // }, [setBagData]);
-
   return (
-    <div>
-      <p>Bag Page</p>
-      <div className="w-1/2">
-        <ScatterChart />
-      </div>
-      <div>
+    <div className="flex flex-wrap">
+      <div className="w-1/4">
         {bagData?.map((disc) => (
-          <div key={disc.discId} className="card">
+          <div key={disc.discId} className="border rounded">
             <BagCard disc={disc} />
           </div>
         ))}
+      </div>
+      <div className="sm: w-3/4 md:w-1/2">
+        <ScatterChart />
       </div>
     </div>
   );
@@ -46,47 +29,23 @@ type CartCardProps = { disc: Disc };
 function BagCard({ disc }: CartCardProps) {
   const { handleRemoveFromBag } = useContext(AppContext);
 
-  const {
-    discId,
-    name,
-    // brand,
-    // price,
-    image1Url,
-    // plastic,
-    speed,
-    glide,
-    turn,
-    fade,
-    // classification,
-    // stability,
-  } = disc;
+  const { discId, name, image1Url, speed, glide, turn, fade } = disc;
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
   return (
-    // <Link to={`/disc-details/${discId}`}>
     <>
-      <div className="w-1/4">
-        <img className="w-full" src={image1Url} alt={name}></img>
+      <div className="flex flex-wrap">
+        <div className="w-1/4">
+          <img className="w-full" src={image1Url} alt={name}></img>
+        </div>
+        <div className="w-3/4">
+          <h5>{name}</h5>
+          <p>{flight}</p>
+        </div>
       </div>
-      <div>
-        <h5>{name}</h5>
-        {/* <p>{brand}</p> */}
-        {/* <p>{plastic}</p> */}
-        <p>{flight}</p>
-        {/* <p>{classification}</p> */}
-        {/* <p>{stability}</p> */}
-        {/* <p>{price}</p> */}
-        {/* <Link to={'/cart'}>
-        <button>Bag It!</button>
-        </Link>
-        <Link to={'/cart'}>
-        <button>Buy It!</button>
-        </Link> */}
-      </div>
-      <div className="flex items-center">
+      <div className="flex items-center justify-end">
         <FaRegTrashCan onClick={() => handleRemoveFromBag(discId)} /> remove
       </div>
     </>
-    // </Link>
   );
 }

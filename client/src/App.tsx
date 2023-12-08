@@ -70,7 +70,6 @@ export default function App() {
     setUser(user);
     setToken(token);
     setIsLoggedIn(true);
-    console.log('user is logged in?', IsLoggedIn);
   }
 
   function handleSignOut() {
@@ -78,7 +77,6 @@ export default function App() {
     setUser(undefined);
     setToken(undefined);
     setIsLoggedIn(false);
-    console.log('user is logged in?', IsLoggedIn);
   }
 
   async function handleAddToCart(discId: number) {

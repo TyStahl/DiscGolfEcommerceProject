@@ -194,7 +194,6 @@ app.post('/api/cart', authMiddleware, async (req, res, next) => {
 app.put('/api/cart', authMiddleware, async (req, res, next) => {
   try {
     const { discId, quantity } = req.body as Partial<CartItem>;
-    console.log(discId);
     if (!discId || !quantity) {
       throw new ClientError(400, 'nothing to add');
     }

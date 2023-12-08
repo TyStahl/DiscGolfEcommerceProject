@@ -31,7 +31,6 @@ export function DiscCatalog() {
     async function readDiscsData() {
       try {
         const data: DiscArray = await fetchDiscs();
-        console.log('disc Data from server:', data);
         setDiscsData(data);
       } catch (error) {
         throw new Error('an error occured loading products');

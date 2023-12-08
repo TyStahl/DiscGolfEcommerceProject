@@ -89,7 +89,6 @@ function CartCard({ disc }: CartCardProps) {
   const flight = `${speed} | ${glide} | ${turn} | ${fade}`;
 
   return (
-    // <Link to={`/disc-details/${discId}`}>
     <div className="border-2 rounded flex flex-wrap">
       <div className="w-1/6">
         <img className="w-full" src={image1Url} alt={name}></img>
@@ -125,6 +124,5 @@ function CartCard({ disc }: CartCardProps) {
         remove
       </div>
     </div>
-    // </Link>
   );
 }

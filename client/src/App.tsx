@@ -17,6 +17,7 @@ import {
   fetchUsersBag,
   fetchUsersCart,
 } from './lib/fetch';
+import { Home } from './pages/Home';
 
 export type User = {
   userId: number;
@@ -42,6 +43,7 @@ export default function App() {
     IsLoggedIn,
     setCartData,
     bagData,
+    setBagData,
     handleAddToBag,
     handleRemoveFromBag,
     handleRemoveFromCart,
@@ -150,9 +152,11 @@ export default function App() {
       return;
     }
     try {
-      const data = await fetchToBag(discId);
-      setBagData([...bagData, data]);
-      console.log('added to bag: ', data);
+      await fetchToBag(discId);
+      const discs = await fetchUsersBag();
+      setBagData(discs);
+      // setBagData([...bagData, data]);
+      console.log('added to bag: ', discs);
     } catch (err) {
       console.error(err);
     }
@@ -162,6 +166,7 @@ export default function App() {
     <AppContext.Provider value={contextValue}>
       <Routes>
         <Route path="/" element={<Header />}>
+          <Route path="home" element={<Home />} />
           <Route path="disc-catalog" element={<DiscCatalog />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />

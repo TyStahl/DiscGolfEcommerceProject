@@ -131,7 +131,7 @@ function DiscCard({ disc }: DiscsCardProps) {
             disabled
             className="w-1/2 border-2 flex flex-nowrap justify-center">
             <FaCheck />
-            <p>in bag!</p>
+            <p>In Bag!</p>
           </button>
         ) : (
           <button
@@ -145,7 +145,7 @@ function DiscCard({ disc }: DiscsCardProps) {
             disabled
             className="w-1/2 border-2 flex flex-nowrap justify-center">
             <FaCheck />
-            <p>in Bag!</p>
+            <p>In Bag!</p>
           </button>
         ) : (
           <button
